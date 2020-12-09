@@ -5,6 +5,7 @@ import {
   DateField,
   filterBy,
   LoadingSpinner,
+  NumberField,
   Query,
   ResourceSelectField,
   safeSubmit,
@@ -15,6 +16,7 @@ import {
 import { Form, Formik } from "formik";
 import { NextRouter, useRouter } from "next/router";
 import { Head, Nav } from "../../../components";
+import { FileUploader } from "../../../components/object-store";
 import { DinaMessage, useDinaIntl } from "../../../intl/dina-ui-intl";
 import { CollectingEvent } from "../../../types/collections-api";
 import { Person } from "../../../types/objectstore-api";
@@ -82,6 +84,9 @@ function CollectingEventForm({
   const onSubmit = safeSubmit(async () => {
     // TODO mock submit
   });
+  const mockFileUploadSubmit = safeSubmit(async () => {
+    // TODO mock file upload submit
+  });
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -96,7 +101,23 @@ function CollectingEventForm({
         <div>
           <div className="row">
             <DateField className="col-md-2" name="eventDateTime" />
+          </div>
+          <div className="row">
+            <NumberField className="col-md-2" name="decimalLatitude" />
+            <NumberField className="col-md-2" name="decimalLongitude" />
+            <NumberField
+              className="col-md-2"
+              name="coordinateUncertaintyInMeters"
+            />
+            <TextField className="col-md-2" name="verbatimCoordinates" />
+          </div>
+          <div className="row">
+            <TextField className="col-md-2" name="countryCode" />
+            <TextField className="col-md-2" name="stateProvince" />
+            <TextField className="col-md-2" name="municipality" />
             <TextField className="col-md-2" name="verbatimLocality" />
+          </div>
+          <div className="row">
             <ResourceSelectField<Person>
               className="col-md-2"
               name="collectors"
@@ -113,6 +134,10 @@ function CollectingEventForm({
             </div>
             <div className="col-md-6">
               <h2>Attached Files</h2>
+              <FileUploader
+                acceptedFileTypes="image/*,audio/*,video/*,.pdf,.doc,.docx,.png"
+                onSubmit={mockFileUploadSubmit}
+              />
             </div>
           </div>
         </div>
@@ -131,6 +156,7 @@ function CollectingEventsAgentEditor() {
   const resourceSelectCell = useResourceSelectCells();
 
   async function mockLoadAgents(): Promise<AgentTableRow[]> {
+    // TODO fetch agents from back-end.
     return [
       {
         person: "Test Person (person/031e8576-9739-427f-b800-24e0be91ba7f)",
