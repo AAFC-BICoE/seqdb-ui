@@ -102,7 +102,7 @@ export function BulkDataEditor<TRow>({
     <>
       <style>{`
         /* Prevent the handsontable header from covering the Dropdown menu options: */
-        .ht_clone_top {
+        .ht_clone_top, .ht_clone_left, .ht_clone_top_left_corner {
           z-index: 0 !important;
         }  
       `}</style>
